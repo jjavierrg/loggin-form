@@ -89,13 +89,17 @@ func getIP(r *http.Request) string {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	ip := getIP(r)
+	
+	// Log de navegación para cualquier ruta
+	log.Printf("NAVEGACIÓN --> ruta='%s' método='%s' ip='%s'\n", r.URL.Path, r.Method, ip)
+	
 	if r.Method == "POST" {
 		// Simular delay de llamada al backend
 		time.Sleep(800 * time.Millisecond)
 		
 		user := r.FormValue("username")
 		pass := r.FormValue("password")
-		ip := getIP(r)
 
 		log.Printf("LOGIN --> user='%s' password='%s' ip='%s'\n", user, pass, ip)
 		
