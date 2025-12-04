@@ -50,13 +50,13 @@ Una aplicación web simple de formulario de login construida en Go que captura c
 #### Pull desde GitHub Container Registry
 
 ```bash
-docker pull ghcr.io/<tu-usuario>/loggin-form:latest
+docker pull ghcr.io/jjavierrg/loggin-form:latest
 ```
 
 #### Ejecutar el contenedor
 
 ```bash
-docker run -d -p 80:80 -p 443:443 --name login-app ghcr.io/<tu-usuario>/loggin-form:latest
+docker run -d -p 80:80 -p 443:443 --name login-app ghcr.io/jjavierrg/loggin-form:latest
 ```
 
 #### Construcción local (desarrollo)

